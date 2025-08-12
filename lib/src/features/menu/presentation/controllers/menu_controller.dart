@@ -1,8 +1,8 @@
 
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodapp/src/data/menu_repository.dart';
-import 'package:foodapp/src/domain/menu_item.dart';
+import 'package:foodapp/src/features/menu/data/menu_repository.dart';
+import 'package:foodapp/src/features/menu/domain/menu_item.dart';
 
 final menuRepositoryProvider = Provider<MenuRepository>((ref) {
   throw UnimplementedError(); // Мы позже передадим репозиторий через ProviderScope

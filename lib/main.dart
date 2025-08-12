@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodapp/src/presentations/menu_controller.dart';
-import 'package:foodapp/src/presentations/screens/menu_screen.dart';
+import 'package:foodapp/src/features/menu/presentation/controllers/menu_controller.dart';
+import 'package:foodapp/src/features/menu/presentation/screens/menu_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'src/core/supabase_client.dart';
-import 'src/data/menu_repository.dart';
+import 'src/features/menu/data/menu_repository.dart';
 
 
 void main() async {

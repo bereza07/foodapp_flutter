@@ -1,6 +1,6 @@
 
 
-import 'package:foodapp/src/domain/menu_item.dart';
+import 'package:foodapp/src/features/menu/domain/menu_item.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MenuRepository {
