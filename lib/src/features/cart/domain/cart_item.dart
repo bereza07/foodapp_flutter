@@ -14,6 +14,19 @@ class CartItem {
     return CartItem(item: item, quantity: quantity ?? this.quantity);
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'item': {
+        'id': item.id,
+        'name': item.name,
+        'description': item.description,
+        'price': item.price,
+        'image_url': item.imageUrl,
+      },
+      'quantity': quantity,
+    };
+  }
+
   double get totalPrice{
     return item.price * quantity;
   }

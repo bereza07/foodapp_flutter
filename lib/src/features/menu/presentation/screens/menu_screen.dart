@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodapp/src/features/cart/presentation/controllers/cart_controller.dart';
 import 'package:foodapp/src/features/cart/presentation/screens/cart_screen.dart';
 import 'package:foodapp/src/features/menu/presentation/controllers/menu_controller.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MenuScreen extends ConsumerWidget {
   const MenuScreen({super.key});
@@ -16,6 +17,12 @@ class MenuScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Меню ресторана'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Supabase.instance.client.auth.signOut();
+            },
+          ),
           Stack(
             children: [
               IconButton(

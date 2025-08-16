@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodapp/src/features/cart/presentation/controllers/cart_controller.dart';
+import 'package:foodapp/src/features/orders/presentation/screens/order_screen.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -67,9 +68,10 @@ class CartScreen extends ConsumerWidget {
                           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       ElevatedButton(
                         onPressed: () {
-                          // Пока демонстрация — позже отправим на сервер
-                          print('Оформляем заказ: $cart');
-                          cartNotifier.clearCart();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const OrderScreen()),
+                          );
                         },
                         child: const Text('Оформить'),
                       )
