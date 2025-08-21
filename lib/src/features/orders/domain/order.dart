@@ -23,4 +23,16 @@ class Order {
       'created_at': createdAt.toIso8601String(),
     };
   }
+
+  factory Order.fromMap(Map<String, dynamic> map) {
+    return Order(
+      id: map['user_id'] as String,
+      items: (map['items'] as List)
+        .map((e) => CartItem.fromMap(e as Map<String, dynamic>))
+        .toList(),
+      total: (map['total_price'] as num).toDouble(),
+      status: map['status'] as String,
+      createdAt: DateTime.parse(map['created_at']),
+    );
+  }
 }

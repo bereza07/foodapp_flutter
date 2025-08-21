@@ -1,4 +1,3 @@
-
 import 'package:foodapp/src/features/menu/domain/menu_item.dart';
 
 class CartItem {
@@ -22,10 +21,26 @@ class CartItem {
         'description': item.description,
         'price': item.price,
         'image_url': item.imageUrl,
+        'category': item.category,
       },
       'quantity': quantity,
     };
   }
+
+factory CartItem.fromMap(Map<String, dynamic> map) {
+  final itemMap = map['item'] as Map<String, dynamic>;
+  return CartItem(
+    item: MenuItem(
+      id: itemMap['id'] as String ?? '',
+      name: itemMap['name'] as String ?? '',
+      description: itemMap['description'] as String ?? '',
+      price: (itemMap['price'] as num).toDouble(),
+      imageUrl: itemMap['image_url'] as String ?? '',
+      category: itemMap['category'] as String ?? '',
+    ),
+    quantity: map['quantity'] as int,
+  );
+}
 
   double get totalPrice{
     return item.price * quantity;
