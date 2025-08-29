@@ -137,7 +137,6 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                   itemCount: sortedMenu.length,
                   itemBuilder: (context, index) {
                     final item = sortedMenu[index];
-
                     bool showCategoryHeader = false;
                     if (index == 0) {
                       showCategoryHeader = true;

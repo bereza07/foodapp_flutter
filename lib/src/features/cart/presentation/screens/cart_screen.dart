@@ -8,13 +8,9 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 1) Подписываемся на список корзины — при изменении список перерисуется
     final cart = ref.watch(cartProvider);
-
-    // 2) Получаем нотифаер для вызова методов (не для подписки)
     final cartNotifier = ref.read(cartProvider.notifier);
 
-    // 3) Считаем итого на основе самого cart (реактивно)
     final total = cart.fold<double>(0.0, (sum, item) => sum + item.totalPrice);
 
     return Scaffold(
@@ -22,7 +18,7 @@ class CartScreen extends ConsumerWidget {
         title: const Text('Корзина'),
       ),
       body: cart.isEmpty
-          ? Center(child: Text('Ваша корзина пуста'))
+          ? const Center(child: Text('Ваша корзина пуста'))
           : Column(
               children: [
                 Expanded(
@@ -32,26 +28,45 @@ class CartScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final ci = cart[index];
                       return ListTile(
-                        // 4) ValueKey помогает Flutter корректно обновлять конкретный элемент
-                        key: ValueKey(ci.item.id),
-                        leading: SizedBox(
+                        key: ValueKey('${ci.item.id}_${ci.selectedOptions.map((o) => o.id).join("_")}'),
+                        /*leading: SizedBox(
                           width: 60,
                           height: 60,
                           child: Image.network(ci.item.imageUrl, fit: BoxFit.cover),
-                        ),
+                        ),*/
                         title: Text(ci.item.name),
-                        subtitle: Text('${ci.item.price.toStringAsFixed(2)} ₽ • Итого ${ci.totalPrice.toStringAsFixed(2)} ₽'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // цена за единицу
+                            Text('${ci.item.price.toStringAsFixed(2)} ₽'),
+                            // список выбранных опций
+                            if (ci.selectedOptions.isNotEmpty)
+                              Wrap(
+                                children: ci.selectedOptions.map((o) => Padding(
+                                  padding: const EdgeInsets.only(right: 6.0, top: 2),
+                                  child: Chip(
+                                    label: Text('${o.name} +${o.additionalPrice.toStringAsFixed(2)} ₽'),
+                                  ),
+                                )).toList(),
+                              ),
+                            // общая цена для этого CartItem
+                            Text('Итого: ${ci.totalPrice.toStringAsFixed(2)} ₽'),
+                          ],
+                        ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
                               icon: const Icon(Icons.remove),
-                              onPressed: () => cartNotifier.removeItem(ci.item),
+                              onPressed: () => cartNotifier.removeItem(ci),
                             ),
                             Text('${ci.quantity}'),
                             IconButton(
                               icon: const Icon(Icons.add),
-                              onPressed: () => cartNotifier.addToCart(ci.item),
+                              onPressed: () => cartNotifier.addToCart(
+                                  ci.item,
+                                  selectedOptions: ci.selectedOptions),
                             ),
                           ],
                         ),

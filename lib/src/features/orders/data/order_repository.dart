@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:foodapp/src/features/cart/domain/cart_item.dart';
 import 'package:foodapp/src/features/orders/domain/order.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -26,7 +28,7 @@ class OrderRepository {
         .select()
         .eq('user_id', userId)
         .order('created_at', ascending: false);
-    print(response);
+    log(response as String);
     return (response as List)
         .map((e) => Order.fromMap(e as Map<String, dynamic>))
         .toList();

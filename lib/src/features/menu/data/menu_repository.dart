@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 import 'package:foodapp/src/features/menu/domain/menu_item.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -8,10 +10,13 @@ class MenuRepository {
   MenuRepository(this.supabase);
 
   Future<List<MenuItem>> fetchMenu() async{
-    final responce = await supabase.from('menu').select();
+    final response = await supabase
+    .from('menu')
+    .select('*, option_groups(*, option_items(*))')
+    .order('category');
 
-    final data = responce as List<dynamic>;
-
-    return data.map((e) => MenuItem.fromMap(e as Map<String, dynamic>),).toList();
+    final data = response as List<dynamic>;
+    //print(data[2]);
+    return data.map((e) => MenuItem.fromMap(e)).toList();
   }
 }
